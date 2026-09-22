@@ -1,25 +1,34 @@
-# NASA APOD Pulse 🚀
+Nasa apod pulse
 
-A web application built to fetch and display the live Astronomy Picture of the Day (APOD) directly from NASA's official API, deployed live to GitHub Pages.
+So I built this project because i wanted a clean and fast way to look at Nasa's astronomy picture of the day without a messy UI.
+My UI is a clean one with a white background.
+tech stack:
 
-Live Site: [https://tharunkumarCYSEC.github.io/nasa-apod-pulse/](https://tharunkumarCYSEC.github.io/nasa-apod-pulse/)
+  react & vite
+    
+  tailwind css
+   
+  nasa api
+    
+how I messed up deploying it:
+I totally forgot to put triggers(Which made me to suffer a lot) in my github actions workflow (deploy.yml). github just threw an error saying no event triggers defined in 'on'. had to add this so it actually runs on push:
 
----
+YAML
 
-## 🛠️ The Journey & Struggles (Devlog)
+on:
+ push:
+    branches: [ main ]
 
-Building this project wasn't a straight line—it came with a few classic deployment headaches. Here is a look at the actual roadblocks I faced and how I fixed them:
+   Then vite broke the build with an export error in vite.config.js. fixed it by wrapping it in defineConfig and setting the base path:
 
-### 1. The Missing Trigger Mystery
-* **The Struggle:** Right after pushing my initial GitHub Actions workflow file (`deploy.yml`), the Actions tab threw an immediate error: `No event triggers defined in 'on'`. 
-* **The Fix:** I realized the workflow didn't know *when* to run. I added the proper push triggers (`on: push: branches: [ main ]`) so GitHub knew to kick off the build automatically whenever code updates.
+JavaScript
 
-### 2. Vite Config Export Error
-* **The Struggle:** Once the trigger worked, the build step failed with `Error: config must export or return an object` pointing straight to `vite.config.js`.
-* **The Fix:** My export syntax wasn't matching what Vite expected. I updated the configuration to use Vite's official wrapper:
-  ```javascript
-  import { defineConfig } from 'vite';
+import { defineConfig } from 'vite';
 
-  export default defineConfig({
-    base: '/nasa-apod-pulse/',
-  });
+export default defineConfig({
+  base: '/nasa-apod-pulse/',
+});
+
+setup:
+git clone it, run npm install, then npm run dev. thats pretty much it.
+Finally, I got first meal after the 6 hours of mind fatuige.
